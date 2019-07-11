@@ -3,6 +3,7 @@ package com.thoughtworks.collection;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Add {
@@ -14,33 +15,30 @@ public class Add {
 
     public int getSumOfOdds(int leftBorder, int rightBorder) {
 
-        int count = 0;
-        for (int i = leftBorder; i < rightBorder; i++) {
-            if (i % 2 != 0)
-                count += i;
-        }
-        return count;
+        return IntStream.rangeClosed(Math.min(leftBorder, rightBorder),Math.max(leftBorder,rightBorder))
+                .filter(number -> number % 2 != 0)
+                .sum();
 
     }
 
     public int getSumTripleAndAddTwo(List<Integer> arrayList) {
 
-        int count = 0;
-        for (int i : arrayList) {
-
-            count += i;
-        }
-        return count + 2;
+        return arrayList.stream()
+                .mapToInt(number -> number*3+2)
+                .sum();
 
     }
 
     public List<Integer> getTripleOfOddAndAddTwo(List<Integer> arrayList) {
 
-        for (int i = 0; i < arrayList.size(); i++) {
-            if (arrayList.get(i) % 2 != 0)
-                arrayList.set(i, arrayList.get(i) * 3 + 2);
-        }
-        return arrayList;
+        return arrayList.stream()
+                .map((number) ->{
+                    if(number % 2 == 0){
+                        return number;
+                    }else
+                        return number * 3 + 2;
+                } )
+                .collect(Collectors.toList());
     }
 
     public int getSumOfProcessedOdds(List<Integer> arrayList) {
